@@ -6,7 +6,7 @@ public class MyPOS extends JFrame
 {
 	public MyPOS()
 	{
-		setTitle("¿À´Ãµµ ´ë¹Ú³ª±æ");
+		setTitle("ì˜¤ëŠ˜ë„ ëŒ€ë°•ë‚˜ê¸¸");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1900, 1800);
 		
