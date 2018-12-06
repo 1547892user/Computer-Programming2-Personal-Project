@@ -9,7 +9,7 @@ public class MyPOS extends JFrame
 	{
 		setTitle("Ex");
 		setSize(1400, 1000);
-		setTitle("d�");
+		setTitle("d");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
