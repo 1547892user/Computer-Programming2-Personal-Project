@@ -9,6 +9,7 @@ public class MyPOS extends JFrame
 	{
 		setTitle("Ex");
 		setSize(1400, 1000);
+		setTitle("dï¿½");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -30,7 +31,7 @@ class MainScreen extends JPanel
 		JPanel tablePane = new JPanel();
 		tablePane.setSize(400, 500);
 		tablePane.setLocation(30, 30);
-		tablePane.setBorder(new TitledBorder(new LineBorder(Color.black, 2), "Å×ÀÌºí"));
+		tablePane.setBorder(new TitledBorder(new LineBorder(Color.black, 2), "í…Œì´ë¸”"));
 		tablePane.setLayout(null);
 		
 		for(int i=1; i<=3; i++)
@@ -74,7 +75,7 @@ class OrderPane extends JPanel
 		JPanel order = new JPanel();
 		order.setSize(400, 500);
 		order.setLocation(30, 30);
-		order.setBorder(new TitledBorder(new LineBorder(Color.black, 2), "ÁÖ¹® ¸ñ·Ï"));
+		order.setBorder(new TitledBorder(new LineBorder(Color.black, 2), "ì£¼ë¬¸ ëª©ë¡"));
 		
 		this.add(order);
 	}
