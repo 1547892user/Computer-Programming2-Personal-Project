@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.*;
 import java.util.*;
 
@@ -64,7 +66,7 @@ class firstScreen extends JPanel //초기화면
 		tS.setLocation(30, 30);
 		OL.setLocation(450, 30); 
 		
-		JButton order = new JButton("주문");
+		JButton order = new JButton("Order");
 		order.setSize(100, 50);
 		order.setBackground(Color.lightGray);
 		order.addActionListener(new ActionListener()
@@ -81,7 +83,7 @@ class firstScreen extends JPanel //초기화면
 				}); 
 		order.setLocation(800, 880);//주문버튼 생성
 		
-		JButton pay = new JButton("결제");
+		JButton pay = new JButton("Pay");
 		pay.setSize(100, 50);
 		pay.setBackground(Color.lightGray);
 		pay.addActionListener(new ActionListener()
@@ -91,11 +93,58 @@ class firstScreen extends JPanel //초기화면
 						JButton innerButton = (JButton)e.getSource();
 						program innerFrame = (program)innerButton.getTopLevelAncestor();
 						pos.today_income += innerFrame.t_info[tableScreen.selected_table-1].getSum();
+						
+						Calendar c = Calendar.getInstance();
+						int hour = c.get(Calendar.HOUR_OF_DAY);
+						int min = c.get(Calendar.MINUTE);
+						int month = c.get(Calendar.DATE);
+						int date = c.get(Calendar.DAY_OF_MONTH);
+						int second = c.get(Calendar.SECOND);
+						
+						String Month = Integer.toString(month).concat("월");
+						String Date = Integer.toString(date).concat("일 ");
+						String Hour = Integer.toString(hour).concat("시 ");
+						String Min = Integer.toString(min).concat("분 ");
+						String Sec = Integer.toString(second).concat("초.txt");
+									
+						String PaidTime = Month + Date + Hour + Min + Sec;
+						
+						try
+						{
+							FileWriter fout = new FileWriter(PaidTime);
+							
+							fout.write("Table No.  " + tableScreen.selected_table + "\r\n\r\n");
+							
+							HashMap<String, Integer> temporary = innerFrame.t_info[tableScreen.selected_table-1].ordered;
+							Set<String> keys = temporary.keySet();
+							Iterator <String> it = keys.iterator();
+							while(it.hasNext())
+							{
+								String key = it.next();
+								String num = Integer.toString(temporary.get(key));
+								fout.write(num);
+								fout.write(" " + key);
+								String mon = Integer.toString(MenuInfo.Menu.get(key)*(temporary.get(key)));
+								fout.write("  " + mon);
+								fout.write("\r\n");
+							}
+							String str2 = Integer.toString(innerFrame.t_info[tableScreen.selected_table-1].getSum());
+							fout.write("\r\n");
+							fout.write("Total : " + str2);
+							
+							fout.close();
+						}
+						catch(IOException t)
+						{
+							
+						}
+						
 						innerFrame.t_info[tableScreen.selected_table-1].ordered.clear();
 						innerFrame.first.OL.PrintOrder();
 						innerFrame.first.revalidate();
-						innerFrame.setTitle("오늘의 매출 : " + Integer.toString(pos.today_income));
+						innerFrame.setTitle("Today's sales : " + Integer.toString(pos.today_income));
 					}
+					
 				}); 
 		pay.setLocation(950, 880);//결제버튼 생성
 		
@@ -155,12 +204,12 @@ class tableScreen extends Box //테이블 상자
 class OrderList extends Box //주문 목록 상자
 {	
 	JPanel List = new JPanel();
-	JLabel sum = new JLabel("합계 : 0");
+	JLabel sum = new JLabel("Total : 0");
 	
 	public OrderList()
 	{
-		JLabel Title = new JLabel("주문 목록");
-		Title.setFont(new Font("돋움", Font.BOLD, 40));
+		JLabel Title = new JLabel("Order");
+		Title.setFont(new Font("Arial", Font.BOLD, 40));
 		Title.setLocation(100, 20); 
 		Title.setSize(400, 110); //"주문 목록"라벨 생성
 		
@@ -175,7 +224,7 @@ class OrderList extends Box //주문 목록 상자
 		this.add(Title);
 		this.add(List);
 		
-		sum.setFont(new Font("돋움", Font.BOLD, 20));
+		sum.setFont(new Font("Arial", Font.BOLD, 20));
 		sum.setSize(150, 40);
 		sum.setLocation(30, 450);
 		
@@ -198,13 +247,13 @@ class OrderList extends Box //주문 목록 상자
 			menu.setLocation(20, y_coord);
 			menu.setFont(new Font("Arial", Font.BOLD, 14));
 			
-			String num = Integer.toString(temporary.get(key))+" 개";
+			String num = Integer.toString(temporary.get(key));
 			
 			JLabel number = new JLabel(num);
 			number.setSize(100, 20);
 			number.setLocation(250, y_coord);
 
-			number.setFont(new Font("돋움", Font.BOLD, 20));
+			number.setFont(new Font("Arial", Font.BOLD, 20));
 			
 			String mon = Integer.toString(MenuInfo.Menu.get(key)*(temporary.get(key)));
 			
@@ -219,7 +268,7 @@ class OrderList extends Box //주문 목록 상자
 			
 			y_coord += 20;
 		}
-		this.sum.setText("합계 : " + Integer.toString(tmp.t_info[tableScreen.selected_table-1].getSum()));
+		this.sum.setText("Total : " + Integer.toString(tmp.t_info[tableScreen.selected_table-1].getSum()));
 		this.List.add(sum);
 		this.List.repaint();
 		this.List.revalidate();
@@ -321,7 +370,7 @@ class OrderScreen extends JPanel //주문하는 화면
 		MenuPan menupan = new MenuPan();
 		menupan.setLocation(450, 30); //MenuPan 객체 생성
 		
-		JButton order = new JButton("처음 화면으로");
+		JButton order = new JButton("Home");
 		order.setSize(100, 50);
 		order.setBackground(Color.lightGray);
 		order.addActionListener(new ActionListener()
